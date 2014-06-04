@@ -1,7 +1,7 @@
 {
   "name": "grunt-htmllint-http",
   "version": "0.1.0",
-  "description": "Grunt plugin for html validation of url\'s, using http://about.validator.nu/",
+  "description": "Grunt plugin for html validation of url's, using http://about.validator.nu/",
   "homepage": "https://github.com/jzaefferer/grunt-html",
   "repository": {
     "type": "git",
