@@ -3,7 +3,8 @@
 [Grunt](http://gruntjs.com/) plugin for html validation, using the [vnu.jar markup checker](https://validator.github.io/).
 
 ## Getting Started
-Install this grunt plugin next to your project's [gruntfile](http://gruntjs.com/getting-started) with: `npm install grunt-htmllint-http --save-dev`
+Install this grunt plugin next to your project's [gruntfile](http://gruntjs.com/getting-started) with:
+`npm install grunt-htmllint-http --save-dev`
 
 Then add this line to your project's gruntfile:
 
@@ -25,6 +26,12 @@ grunt.initConfig({
         }
     }
 });
+```
+
+Then run it like this:
+
+```
+grunt htmllint-http
 ```
 
 ## Options
