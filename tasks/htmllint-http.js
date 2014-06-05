@@ -1,7 +1,8 @@
 'use strict';
 
-var spawn = require('child_process').spawn;
-var path  = require('path');
+var numCPUs = require('os').cpus().length;
+var path    = require('path');
+var spawn   = require('child_process').spawn;
 
 var async = require('async');
 var http  = require('follow-redirects').http;
@@ -16,7 +17,10 @@ module.exports = function gruntHtmlLintHttp(grunt) {
 
         var done = this.async();
 
-        var options = this.options({ignore: []});
+        var options = this.options({
+            ignore: [],
+            parallelLimit: numCPUs
+        });
 
         if (!this.data || !this.data.urls) {
             grunt.log.error('No url\'s specified!');
@@ -27,7 +31,7 @@ module.exports = function gruntHtmlLintHttp(grunt) {
         this.data.urls.forEach(function(url) {
             tasks.push(_getTask(grunt, done, options, url));
         });
-        async.parallel(tasks, function(err, results) {
+        async.parallelLimit(tasks, options.parallelLimit, function(err, results) {
             _reportLintFreeUrls(grunt, results);
             _hasError(results) ? done(false) : done();
         });
