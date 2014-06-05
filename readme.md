@@ -2,6 +2,8 @@
 
 [Grunt](http://gruntjs.com/) plugin for html validation, using the [vnu.jar markup checker](https://validator.github.io/).
 
+_This is grunt plugin only accepts url's as input._ If you want to lint local files, take a look at [grunt-html](https://github.com/jzaefferer/grunt-html). 
+
 ## Getting Started
 Install this grunt plugin next to your project's [gruntfile](http://gruntjs.com/getting-started) with:
 `npm install grunt-htmllint-http --save-dev`
@@ -35,7 +37,26 @@ grunt htmllint-http
 ```
 
 ## Options
-There are currently no options.
+
+### ignore
+An array of messages you don't want to report as error. Example config:
+
+```js
+'htmllint-http': {
+    options: {
+        ignore: [
+            'Bad value “X-UA-Compatible” for attribute “http-equiv” on XHTML element “meta”.',
+            'Bad value “apple-mobile-web-app-title” for attribute “name” on XHTML element “meta”: Keyword “apple-mobile-web-app-title” is not registered.'
+        ]
+    },
+    dist: {
+        urls: [
+            'http://localhost:1337/',
+            'http://localhost:1337/articles.html'
+        ]
+    }
+}
+```
 
 ## License
 MIT
