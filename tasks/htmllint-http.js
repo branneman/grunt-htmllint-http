@@ -16,6 +16,8 @@ module.exports = function gruntHtmlLintHttp(grunt) {
 
         var done = this.async();
 
+        var options = this.options({ignore: []});
+
         if (!this.data || !this.data.urls) {
             grunt.log.error('No url\'s specified!');
             return done(false);
@@ -23,7 +25,7 @@ module.exports = function gruntHtmlLintHttp(grunt) {
 
         var tasks = [];
         this.data.urls.forEach(function(url) {
-            tasks.push(_getTask(grunt, done, url));
+            tasks.push(_getTask(grunt, done, options, url));
         });
         async.parallel(tasks, function(err, results) {
             _reportLintFreeUrls(grunt, results);
@@ -35,7 +37,7 @@ module.exports = function gruntHtmlLintHttp(grunt) {
 //
 // Returns a task for linting a single url
 //
-function _getTask(grunt, done, url) {
+function _getTask(grunt, done, options, url) {
 
     return function(cb) {
 
@@ -49,10 +51,20 @@ function _getTask(grunt, done, url) {
             var vnu = _spawnVnu();
 
             _collectOutput(vnu, function(output) {
+
                 try {
                     var messages = JSON.parse(output).messages;
-                } catch(e) { return cb(null, false); }
+                } catch(e) {
+                    return cb(null, false);
+                }
+
+                // Filter ignored messages
+                messages = messages.filter(function(msg) {
+                    return !~options.ignore.indexOf(msg.message);
+                });
+
                 messages.forEach(_logLintError.bind({}, grunt, url));
+
                 cb(null, messages.length);
             });
 
