@@ -7,6 +7,7 @@ var spawn   = require('child_process').spawn;
 var async = require('async');
 var http  = require('follow-redirects').http;
 var chalk = require('chalk');
+var jar = require('vnu-jar');
 
 //
 // Create new Grunt multi task
@@ -100,7 +101,7 @@ function _spawnVnu() {
     return spawn('java', [
         '-Xss512k', // sometimes we get *a lot* of output
         '-jar',
-        path.join(__dirname, '../vnu.jar'),
+        jar,
         '--format',
         'json',
         '-'
